@@ -12,8 +12,14 @@ SELECT * FROM comprador;
 
 SELECT * FROM mercadologico;
 
+SELECT * FROM tipoorigemverba;
+
+
+
 SELECT b.descricao "loja", c.descricao "tipo recebimento", a.dataemissao "data de emissão",  
-a.id_fornecedor, d.razaosocial "razão social", e.nome "comprador", f.descricao "mercadologico"
+a.id_fornecedor, d.razaosocial "razão social", e.nome "comprador", f.descricao "mercadologico",
+g.descricao "tipo verba", a.representante, a.telefone, h.descricao "tipo local cobranca", a.valor, a.observacao, 
+i.descricao "tipo origem verba"
 	FROM verba a 
 	JOIN loja b 
 		ON a.id_loja = b.id
@@ -30,5 +36,12 @@ a.id_fornecedor, d.razaosocial "razão social", e.nome "comprador", f.descricao 
 						and mercadologico4=0
 						and mercadologico5=0) f
 		ON f.mercadologico1 = a.mercadologico1
+	JOIN tipoverba g
+		ON g.id = a.id_tipoverba
+	JOIN tipolocalcobranca h
+		ON h.id = a.id_tipolocalcobranca
+	JOIN tipoorigemverba i
+		ON i.id = a.id_tipoorigemverba
+	WHERE a.id_situacaoverba = 1
 	LIMIT 10
 

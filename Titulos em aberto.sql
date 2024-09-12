@@ -12,14 +12,17 @@ SELECT * FROM comprador;
 
 SELECT * FROM mercadologico;
 
-SELECT * FROM tipoorigemverba;
+SELECT * FROM situacaoreceberverba;
+SELECT * FROM situacaoverba;
+
+SELECT * FROM receberverba where id_situacaoreceberverba = 0;
 
 
 
-SELECT b.descricao "loja", c.descricao "tipo recebimento", a.dataemissao "data de emissão",  
+SELECT /*sum(j.valorliquido)*/b.descricao "loja", c.descricao "tipo recebimento", a.dataemissao "data de emissão",  
 a.id_fornecedor, d.razaosocial "razão social", e.nome "comprador", f.descricao "mercadologico",
-g.descricao "tipo verba", a.representante, a.telefone, h.descricao "tipo local cobranca", a.valor, a.observacao, 
-i.descricao "tipo origem verba"
+g.descricao "tipo verba", a.representante, a.telefone, h.descricao "tipo local cobranca", a.valor "valor original", 
+j.valorliquido, a.observacao, i.descricao "tipo origem verba"
 	FROM verba a 
 	JOIN loja b 
 		ON a.id_loja = b.id
@@ -42,6 +45,9 @@ i.descricao "tipo origem verba"
 		ON h.id = a.id_tipolocalcobranca
 	JOIN tipoorigemverba i
 		ON i.id = a.id_tipoorigemverba
+	JOIN receberverba j
+		ON j.id_verba = a.id
 	WHERE a.id_situacaoverba = 1
-	LIMIT 10
+			and j.id_situacaoreceberverba = 0
+
 
